@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeTracker Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>TimeTracker Pro</h1>
+                <p>Professional Time & Attendance Management</p>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" class="form-control" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" class="form-control" required placeholder="Enter your password">
+                </div>
+                <button type="submit" class="btn btn--primary btn--full-width">Sign In</button>
+            </form>
+            <div class="demo-users">
+                <h3>Demo Users</h3>
+                <div class="demo-user-list">
+                    <div class="demo-user">john.smith@company.com (Admin)</div>
+                    <div class="demo-user">sarah.johnson@company.com (Manager)</div>
+                    <div class="demo-user">mike.davis@company.com (Employee)</div>
+                    <div class="demo-user">lisa.chen@company.com (Employee)</div>
+                    <div class="demo-user">david.wilson@company.com (Manager)</div>
+                </div>
+                <p class="demo-note">Password: "password" for all users</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Onboarding Overlay System -->
+    <div id="onboardingOverlay" class="onboarding-overlay hidden">
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="onboarding-screen welcome-screen">
+            <div class="welcome-container">
+                <div class="welcome-animation">
+                    <div class="logo-animation">
+                        <h1 class="animated-logo">TimeTracker Pro</h1>
+                        <div class="logo-icon">⏰</div>
+                    </div>
+                </div>
+                <div class="welcome-content">
+                    <h2 id="welcomeMessage">Welcome to TimeTracker Pro!</h2>
+                    <p class="welcome-description">Let's get you set up in just a few minutes. We'll walk you through everything you need to know to make the most of your time tracking experience.</p>
+                    <div class="welcome-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">5</div>
+                            <div class="stat-label">Steps</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">8</div>
+                            <div class="stat-label">Minutes</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">∞</div>
+                            <div class="stat-label">Productivity</div>
+                        </div>
+                    </div>
+                    <div class="welcome-actions">
+                        <button id="startOnboardingBtn" class="btn btn--primary btn--lg">Let's Get Started</button>
+                        <button id="skipOnboardingBtn" class="btn btn--outline">Skip for Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Setup Wizard -->
+        <div id="setupWizard" class="onboarding-screen setup-wizard hidden">
+            <div class="setup-container">
+                <div class="setup-header">
+                    <h2>Profile Setup</h2>
+                    <div class="progress-indicator">
+                        <span id="stepCounter">Step 1 of 4</span>
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="setup-content">
+                    <!-- Step 1: Profile -->
+                    <div id="setupStep1" class="setup-step active">
+                        <div class="step-icon">👤</div>
+                        <h3>Tell us about yourself</h3>
+                        <form class="setup-form">
+                            <div class="form-group">
+                                <label class="form-label">Display Name</label>
+                                <input type="text" id="setupName" class="form-control" placeholder="How should we address you?">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Department</label>
+                                <select id="setupDepartment" class="form-control">
+                                    <option value="">Select your department</option>
+                                    <option value="IT">IT</option>
+                                    <option value="HR">HR</option>
+                                    <option value="Engineering">Engineering</option>
+                                    <option value="Sales">Sales</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="Finance">Finance</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Step 2: Role -->
+                    <div id="setupStep2" class="setup-step">
+                        <div class="step-icon">🎯</div>
+                        <h3>Confirm your role</h3>
+                        <div class="role-cards">
+                            <div class="role-card" data-role="employee">
+                                <div class="role-icon">👨‍💼</div>
+                                <h4>Employee</h4>
+                                <p>Track your time, manage attendance, and request leave</p>
+                            </div>
+                            <div class="role-card" data-role="manager">
+                                <div class="role-icon">👨‍💻</div>
+                                <h4>Manager</h4>
+                                <p>All employee features plus team management and approvals</p>
+                            </div>
+                            <div class="role-card" data-role="admin">
+                                <div class="role-icon">👨‍💼</div>
+                                <h4>Admin</h4>
+                                <p>Full system access including reports and user management</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Schedule -->
+                    <div id="setupStep3" class="setup-step">
+                        <div class="step-icon">📅</div>
+                        <h3>Set your work schedule</h3>
+                        <div class="schedule-config">
+                            <div class="form-group">
+                                <label class="form-label">Working Hours</label>
+                                <div class="time-inputs">
+                                    <input type="time" id="workStart" class="form-control" value="09:00">
+                                    <span>to</span>
+                                    <input type="time" id="workEnd" class="form-control" value="17:00">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Working Days</label>
+                                <div class="day-selector">
+                                    <label class="day-checkbox">
+                                        <input type="checkbox" checked> Monday
+                                    </label>
+                                    <label class="day-checkbox">
+                                        <input type="checkbox" checked> Tuesday
+                                    </label>
+                                    <label class="day-checkbox">
+                                        <input type="checkbox" checked> Wednesday
+                                    </label>
+                                    <label class="day-checkbox">
+                                        <input type="checkbox" checked> Thursday
+                                    </label>
+                                    <label class="day-checkbox">
+                                        <input type="checkbox" checked> Friday
+                                    </label>
+                                    <label class="day-checkbox">
+                                        <input type="checkbox"> Saturday
+                                    </label>
+                                    <label class="day-checkbox">
+                                        <input type="checkbox"> Sunday
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Preferences -->
+                    <div id="setupStep4" class="setup-step">
+                        <div class="step-icon">🔔</div>
+                        <h3>Notification preferences</h3>
+                        <div class="preferences-list">
+                            <label class="preference-item">
+                                <input type="checkbox" checked>
+                                <span class="checkmark"></span>
+                                <div>
+                                    <strong>Break Reminders</strong>
+                                    <p>Get notified when it's time for a break</p>
+                                </div>
+                            </label>
+                            <label class="preference-item">
+                                <input type="checkbox" checked>
+                                <span class="checkmark"></span>
+                                <div>
+                                    <strong>Clock Out Reminders</strong>
+                                    <p>Daily reminders to clock out at the end of your shift</p>
+                                </div>
+                            </label>
+                            <label class="preference-item">
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                                <div>
+                                    <strong>Weekly Reports</strong>
+                                    <p>Receive weekly summary of your work hours</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setup-actions">
+                    <button id="setupPrevBtn" class="btn btn--outline">Previous</button>
+                    <button id="setupNextBtn" class="btn btn--primary">Next</button>
+                    <button id="setupCompleteBtn" class="btn btn--primary hidden">Complete Setup</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Tour -->
+        <div id="interactiveTour" class="tour-overlay hidden">
+            <div class="tour-spotlight"></div>
+            <div class="tour-tooltip">
+                <div class="tour-content">
+                    <h4 id="tourTitle">Feature Title</h4>
+                    <p id="tourDescription">Feature description goes here</p>
+                    <div class="tour-progress">
+                        <span id="tourCounter">1 of 8</span>
+                        <div class="tour-progress-bar">
+                            <div id="tourProgressFill" class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tour-actions">
+                    <button id="tourSkipBtn" class="btn btn--outline btn--sm">Skip Tour</button>
+                    <button id="tourPrevBtn" class="btn btn--secondary btn--sm">Previous</button>
+                    <button id="tourNextBtn" class="btn btn--primary btn--sm">Next</button>
+                    <button id="tourTryBtn" class="btn btn--primary btn--sm hidden">Try It</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Achievement Celebration -->
+        <div id="achievementModal" class="achievement-modal hidden">
+            <div class="achievement-content">
+                <div class="achievement-animation">
+                    <div class="confetti"></div>
+                    <div class="achievement-icon" id="achievementIcon">🎉</div>
+                </div>
+                <h3 id="achievementTitle">Achievement Unlocked!</h3>
+                <p id="achievementDescription">You've completed your first action</p>
+                <button id="achievementCloseBtn" class="btn btn--primary">Continue</button>
+            </div>
+        </div>
+
+        <!-- Help Resources -->
+        <div id="helpCenter" class="onboarding-screen help-center hidden">
+            <div class="help-container">
+                <div class="help-header">
+                    <h2>Help & Resources</h2>
+                    <p>Everything you need to become a TimeTracker Pro expert</p>
+                </div>
+                
+                <div class="help-grid">
+                    <div class="help-card">
+                        <div class="help-icon">📚</div>
+                        <h4>User Guide</h4>
+                        <p>Complete documentation and tutorials</p>
+                        <button class="btn btn--outline btn--sm">Open Guide</button>
+                    </div>
+                    
+                    <div class="help-card">
+                        <div class="help-icon">⌨️</div>
+                        <h4>Keyboard Shortcuts</h4>
+                        <p>Speed up your workflow with shortcuts</p>
+                        <button id="showShortcutsBtn" class="btn btn--outline btn--sm">View Shortcuts</button>
+                    </div>
+                    
+                    <div class="help-card">
+                        <div class="help-icon">💬</div>
+                        <h4>Support</h4>
+                        <p>Get help from our support team</p>
+                        <button class="btn btn--outline btn--sm">Contact Support</button>
+                    </div>
+                    
+                    <div class="help-card">
+                        <div class="help-icon">🎓</div>
+                        <h4>Video Tutorials</h4>
+                        <p>Watch step-by-step video guides</p>
+                        <button class="btn btn--outline btn--sm">Watch Videos</button>
+                    </div>
+                </div>
+
+                <div class="help-shortcuts" id="keyboardShortcuts">
+                    <h4>Keyboard Shortcuts</h4>
+                    <div class="shortcuts-grid">
+                        <div class="shortcut-item">
+                            <kbd>Space</kbd>
+                            <span>Clock In/Out</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>Ctrl + D</kbd>
+                            <span>Dashboard</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>Ctrl + T</kbd>
+                            <span>Time Tracking</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>Ctrl + A</kbd>
+                            <span>Attendance</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>Ctrl + R</kbd>
+                            <span>Reports</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>?</kbd>
+                            <span>Show Help</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-actions">
+                    <button id="completeOnboardingBtn" class="btn btn--primary btn--lg">Complete Onboarding</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="appContainer" class="app-container hidden">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <button id="menuToggle" class="menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <h1 class="app-title">TimeTracker Pro</h1>
+            </div>
+            <div class="header-right">
+                <div class="search-container">
+                    <input type="text" id="globalSearch" class="global-search" placeholder="Search employees, projects, reports...">
+                    <button class="search-btn" aria-label="Search">🔍</button>
+                </div>
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <div class="user-menu">
+                    <button id="userMenuButton" class="user-menu-button">
+                        <span id="currentUserName">User</span>
+                        <span class="user-avatar" id="userAvatar">U</span>
+                    </button>
+                    <div id="userDropdown" class="user-dropdown hidden">
+                        <button id="showHelpBtn">Help & Support</button>
+                        <button id="logoutButton">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="app-layout">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="sidebar">
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <button class="nav-link active" data-view="dashboard" data-section="dashboard">
+                            <span class="nav-icon">📊</span>
+                            Dashboard
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-view="time-tracking" data-section="timetracking">
+                            <span class="nav-icon">⏰</span>
+                            Time Tracking
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-view="attendance" data-section="attendance">
+                            <span class="nav-icon">📅</span>
+                            Attendance
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-view="reports" data-section="reports">
+                            <span class="nav-icon">📈</span>
+                            Reports
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-view="team" data-section="team">
+                            <span class="nav-icon">👥</span>
+                            Team
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Dashboard Section -->
+                <section id="dashboardSection" class="content-section active">
+                    <div id="dashboard" class="section-header">
+                        <h2>Dashboard</h2>
+                        <div class="current-time" id="currentTime"></div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <!-- Clock In/Out Card -->
+                        <div class="card clock-card">
+                            <div class="card__body">
+                                <h3>Quick Actions</h3>
+                                <div class="clock-status">
+                                    <div class="status-indicator" id="clockStatus">
+                                        <span class="status--success">Clocked Out</span>
+                                    </div>
+                                    <div class="clock-time" id="clockTime">Ready to start</div>
+                                </div>
+                                <button id="clock-toggle" class="btn btn--primary btn--full-width">Clock In</button>
+                            </div>
+                        </div>
+
+                        <!-- Today's Summary -->
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Today's Summary</h3>
+                                <div class="summary-stats">
+                                    <div class="stat">
+                                        <span class="stat-label">Hours Worked</span>
+                                        <span class="stat-value" id="todayHours">0.0h</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-label">Break Time</span>
+                                        <span class="stat-value">1.0h</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Weekly Summary -->
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>This Week</h3>
+                                <div class="summary-stats">
+                                    <div class="stat">
+                                        <span class="stat-label">Total Hours</span>
+                                        <span class="stat-value">32.25h</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-label">Days Worked</span>
+                                        <span class="stat-value">4</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending Requests -->
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Pending Requests</h3>
+                                <div class="pending-list">
+                                    <div class="pending-item">
+                                        <span>Vacation Request</span>
+                                        <span class="status--warning">Pending</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Time Tracking Section -->
+                <section id="timetrackingSection" class="content-section">
+                    <div class="section-header">
+                        <h2>Time Tracking</h2>
+                        <button class="btn btn--secondary">Export Timesheet</button>
+                    </div>
+
+                    <div class="timesheet-container">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Current Week Timesheet</h3>
+                                <div class="timesheet-table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Clock In</th>
+                                                <th>Clock Out</th>
+                                                <th>Break</th>
+                                                <th>Total</th>
+                                                <th>Project</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="timesheetTableBody">
+                                            <!-- Timesheet data will be populated here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Attendance Section -->
+                <section id="attendanceSection" class="content-section">
+                    <div class="section-header">
+                        <h2>Attendance</h2>
+                        <button id="newLeaveRequestBtn" class="btn btn--primary">New Leave Request</button>
+                    </div>
+
+                    <div class="attendance-grid">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Leave Requests</h3>
+                                <div id="leaveRequestsList" class="leave-list">
+                                    <!-- Leave requests will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Attendance History</h3>
+                                <div class="attendance-stats">
+                                    <div class="stat">
+                                        <span class="stat-label">This Month</span>
+                                        <span class="stat-value">22 days</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-label">Leave Taken</span>
+                                        <span class="stat-value">3 days</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-label">Leave Balance</span>
+                                        <span class="stat-value">12 days</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Reports Section -->
+                <section id="reportsSection" class="content-section">
+                    <div class="section-header">
+                        <h2>Reports</h2>
+                    </div>
+
+                    <div class="reports-container">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Generate Report</h3>
+                                <form id="reportForm" class="report-form">
+                                    <div class="form-group">
+                                        <label for="reportType" class="form-label">Report Type</label>
+                                        <select id="reportType" class="form-control">
+                                            <option value="attendance">Attendance Summary</option>
+                                            <option value="timesheet">Timesheet Report</option>
+                                            <option value="leave">Leave Summary</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="startDate" class="form-label">Start Date</label>
+                                        <input type="date" id="startDate" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="endDate" class="form-label">End Date</label>
+                                        <input type="date" id="endDate" class="form-control" required>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn--primary">Generate Report</button>
+                                        <button type="button" id="exportReportBtn" class="btn btn--secondary">Export PDF</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="card" id="reportResults">
+                            <div class="card__body">
+                                <h3>Report Results</h3>
+                                <div id="reportContent" class="report-preview">
+                                    <p>Select report parameters and click "Generate Report" to view results.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Team Section -->
+                <section id="teamSection" class="content-section">
+                    <div class="section-header">
+                        <h2>Team Overview</h2>
+                    </div>
+
+                    <div class="team-container">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Team Status</h3>
+                                <div id="teamMembersList" class="team-list">
+                                    <!-- Team members will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Leave Request Modal -->
+    <div id="leaveRequestModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>New Leave Request</h3>
+                <button id="closeLeaveModal" class="modal-close">&times;</button>
+            </div>
+            <form id="leaveRequestForm" class="modal-body">
+                <div class="form-group">
+                    <label for="leaveType" class="form-label">Leave Type</label>
+                    <select id="leaveType" class="form-control" required>
+                        <option value="">Select leave type</option>
+                        <option value="vacation">Vacation</option>
+                        <option value="sick">Sick Leave</option>
+                        <option value="personal">Personal Leave</option>
+                        <option value="emergency">Emergency Leave</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="leaveStartDate" class="form-label">Start Date</label>
+                    <input type="date" id="leaveStartDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="leaveEndDate" class="form-label">End Date</label>
+                    <input type="date" id="leaveEndDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="leaveReason" class="form-label">Reason</label>
+                    <textarea id="leaveReason" class="form-control" rows="3" placeholder="Please provide a reason for your leave request"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelLeaveRequest" class="btn btn--secondary">Cancel</button>
+                    <button type="submit" class="btn btn--primary">Submit Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
