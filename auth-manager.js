@@ -32,7 +32,7 @@ class AuthManager {
     return data;
   }
 
-  async signIn(email, password) {
+  async signIn(test@test.com, password) {
     const { data, error } = await this.supabase.auth.signInWithPassword({
       email,
       password
